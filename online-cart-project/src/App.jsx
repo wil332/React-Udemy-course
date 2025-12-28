@@ -4,6 +4,7 @@ import Header from './components/Header.jsx';
 import Shop from './components/Shop.jsx';
 import { DUMMY_PRODUCTS } from './dummy-products.js';
 import Product from './components/Product.jsx';
+import { CartContext } from './store/shopping-cart-context.jsx';
 
 function App() {
   const [shoppingCart, setShoppingCart] = useState({
@@ -66,8 +67,14 @@ function App() {
     });
   }
 
+  const ctxValues = {
+   items: shoppingCart.items,
+   onAddToCart: handleAddItemToCart,
+   cart : {shoppingCart},
+  }
+
   return (
-    <>
+    <CartContext value={ctxValues}>
       <Header
         cart={shoppingCart}
         onUpdateCartItemQuantity={handleUpdateCartItemQuantity}
@@ -75,11 +82,11 @@ function App() {
       <Shop>
         {DUMMY_PRODUCTS.map((product) => (
           <li key={product.id}>
-            <Product {...product} onAddToCart={handleAddItemToCart} />
+            <Product {...product}  />
           </li>
         ))}
       </Shop>
-    </>
+    </CartContext>
   );
 }
 
