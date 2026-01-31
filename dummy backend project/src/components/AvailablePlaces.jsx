@@ -5,18 +5,23 @@ import Places from './Places.jsx';
 export default function AvailablePlaces({ onSelectPlace }) {
   const [availablePlaces,setAvailablePlaces] = useState([]);
 
-  useEffect(fetch('https://localhost:3000/places').then((response)=>{
-    return response.json();
-  }).then((resData)=>{
-    setAvailablePlaces(resData.places);
-  }),[])
+  useEffect(()=>{
+    async function fetchPlaces(){
+      const response = await  fetch('http://localhost:3000/places');
+      const resData = await response.json();
+      setAvailablePlaces(resData);
+    }
+   fetchPlaces();
+  },[])
+    
 
   return (
     <Places
       title="Available Places"
-      places={[]}
+      places={availablePlaces}
       fallbackText="No places available."
       onSelectPlace={onSelectPlace}
     />
   );
 }
+
