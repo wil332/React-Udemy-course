@@ -37,10 +37,19 @@ app.get('/user-places', async (req, res) => {
 app.put('/user-places', async (req, res) => {
   const places = req.body.places;
 
-  await fs.writeFile('./data/user-places.json', JSON.stringify(places));
+  // VALIDASI: Jika places tidak ada, kirim error, jangan lanjut tulis file
+  if (places === undefined) {
+    return res.status(400).json({ message: 'Places data is required!' });
+  }
 
-  res.status(200).json({ message: 'User places updated!' });
+  try {
+    await fs.writeFile('./data/user-places.json', JSON.stringify(places));
+    res.status(200).json({ message: 'User places updated!' });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to write data.' });
+  }
 });
+
 
 // 404
 app.use((req, res, next) => {
