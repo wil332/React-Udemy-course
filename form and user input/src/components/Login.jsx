@@ -1,30 +1,33 @@
-import { useRef } from "react";
+// import { useRef } from "react";
+import { useState } from "react";
 
 export default function Login() {
-  const email = useRef();
-  const password = useRef();
+  // const email = useRef();
+  // const password = useRef();
 
   function handleSubmit(event){
     event.preventDefault();
 
-    const enteredEmail = email.current.value;
-    const enteredPassword = password.current.value;
+    // const enteredEmail = email.current.value;
+    // const enteredPassword = password.current.value;
 
-    console.log(enteredEmail, enteredPassword);
+    // console.log(enteredEmail, enteredPassword);
     
   }
 
-  // const [enteredValues, setEnteredValues] = useState({
-  //   email: '',
-  //   password: ''
-  // })
+  const [enteredValues, setEnteredValues] = useState({
+    email: '',
+    password: ''
+  })
 
-  // function handleInputChange(identifier, value){
-  //   setEnteredValues(prevValues=>({
-  //     ...prevValues,
-  //     [identifier]: value
-  //   }))
-  // }
+  const emailIsInvalid = enteredValues.email !== '' && !enteredValues.email.includes('@');
+
+  function handleInputChange(identifier, value){
+    setEnteredValues(prevValues=>({
+      ...prevValues,
+      [identifier]: value
+    }))
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -34,18 +37,21 @@ export default function Login() {
         <div className="control no-margin">
           <label htmlFor="email">Email</label>
           <input id="email" type="email" name="email" 
-          //onChange={(event) => handleInputChange('email', event.target.value)}
-          //value={enteredValues.email}
-          ref={email}
+          onChange={(event) => handleInputChange('email', event.target.value)}
+          value={enteredValues.email}
+          // ref={email}
           />
+          {emailIsInvalid && <div className="control-error">
+            <p>Please input a valid email!</p>
+            </div>}
         </div>
 
         <div className="control no-margin">
           <label htmlFor="password">Password</label>
           <input id="password" type="password" name="password" 
-          //onChange={(event)=> handleInputChange('password', event.target.value)}
-          //value={enteredValues.password}
-          ref={password}
+          onChange={(event)=> handleInputChange('password', event.target.value)}
+          value={enteredValues.password}
+          // ref={password}
           />
         </div>
       </div>
