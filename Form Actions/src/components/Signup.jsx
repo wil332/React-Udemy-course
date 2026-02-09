@@ -1,7 +1,49 @@
+import {isEmail,isNotEmpty,hasMinLength,isEqualToOtherValue} from '../util/validation.js'
+
 export default function Signup() {
-  function signUpAction(){
-    console.log('SUBMITTED!');
-    
+  function signUpAction(formData){
+    const email = formData.get('email');
+    const password = formData.get('password');
+    const confirmPassword = formData.get('confirm-password');
+    const firstName = formData.get('first-name');
+    const lastName = formData.get('last-name');
+    const role = formData.get('role');
+    const terms = formData.get('terms');
+    const acquisitionChannel = formData.getAll('acquisition');
+
+    const errors = [];
+
+    if (!isEmail(email)) {
+      errors.push('Invalid email address!')
+    }
+
+    if (!isNotEmpty(password) && !hasMinLength(password,8)) {
+      errors.push('Please provide a password with at least 8 characters!')
+    }
+
+    if (!isEqualToOtherValue(password,confirmPassword)) {
+      errors.push('Password must match!')
+    }
+
+    if (!isNotEmpty(firstName)) {
+      errors.push('Please input your first name!')
+    }
+
+    if (!isNotEmpty(lastName)) {
+      errors.push('Please input your last name!')
+    }
+
+    if (!isNotEmpty(role)) {
+      errors.push('Choose your role!')
+    }
+
+    if (!terms) {
+      errors.push('You must agree with the terms and conditions!')
+    }
+
+    if(acquisitionChannel.length === 0){
+      errors.push('Please select at least one acquisition channel!')
+    }
   }
   return (
     <form action={signUpAction}>
