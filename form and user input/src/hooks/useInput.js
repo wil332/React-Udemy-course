@@ -1,14 +1,14 @@
 import { useState } from "react";
 
 export default function useInput(defaultValue,validationFn){
-    const [enteredValues, setEnteredValues] = useState(defaultValue);
+    const [enteredValue, setEnteredValue] = useState(defaultValue);
     
       const [didEdit, setDidEdit] = useState(false);
     
-      const valueIsValid = validationFn(enteredValues);
+      const valueIsValid = validationFn(enteredValue);
     
       function handleInputChange(event){
-        setEnteredValues(event.target.value);
+        setEnteredValue(event.target.value);
         setDidEdit(false);
       }
     
@@ -17,7 +17,7 @@ export default function useInput(defaultValue,validationFn){
       }
 
       return {
-        value: enteredValues,
+        value: enteredValue,
         handleInputChange,
         handleInputBlur,
         hasError: didEdit && !valueIsValid
